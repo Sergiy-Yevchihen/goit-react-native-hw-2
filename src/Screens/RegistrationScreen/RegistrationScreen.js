@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-const buttonImg = require("./src/image/add.png");
+const buttonImg = require("../../image/add.png");
 
 const RegistrationScreen = ({ changeScrenn }) => {
   const [login, setLogin] = useState("");
