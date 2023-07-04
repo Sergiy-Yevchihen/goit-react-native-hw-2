@@ -12,9 +12,22 @@ import React, { useState } from "react";
 import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
 import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 
+import { useFonts } from "expo-font";
+
 const backImage = require("./src/image/BG.png");
 
 export default function App() {
+
+   const [fontsLoaded] = useFonts({
+     RobotoBold: require("./src/fonts/Roboto-Bold.ttf"),
+     RobotoRegular: require("./src/fonts/Roboto-Regular.ttf"),
+     RobotoMedium: require("./src/fonts/Roboto-Medium.ttf"),
+   });
+  
+
+   if (!fontsLoaded) {
+     return null;
+   }
   const [activeScreen, setActiveScreen] = useState(0);
   const changeScrennFunc = (value) => {
     setActiveScreen(value);
@@ -22,7 +35,7 @@ export default function App() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.maincontainer}>
+      <View style={styles.mainContainer}>
         <ImageBackground source={backImage} style={styles.backImg}>
           {activeScreen === 0 ? (
             <LoginScreen changeScrenn={changeScrennFunc} />
@@ -37,7 +50,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  maincontainer: {
+  mainContainer: {
     flex: 1,
     alignItems: "center",
   },
