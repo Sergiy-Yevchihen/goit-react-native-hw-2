@@ -9,39 +9,33 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+import RegistrationScreen from "./src/component/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/component/LoginScreen/LoginScreen";
 
-import { useFonts } from "expo-font";
+
 
 const backImage = require("./src/image/BG.png");
 
 export default function App() {
 
-   const [fontsLoaded] = useFonts({
-     RobotoBold: require("./src/fonts/Roboto-Bold.ttf"),
-     RobotoRegular: require("./src/fonts/Roboto-Regular.ttf"),
-     RobotoMedium: require("./src/fonts/Roboto-Medium.ttf"),
-   });
   
-
-   if (!fontsLoaded) {
-     return null;
-   }
   const [activeScreen, setActiveScreen] = useState(0);
-  const changeScrennFunc = (value) => {
+  const changeScreenFunc = (value) => {
     setActiveScreen(value);
   };
+
+  let screenComponent;
+  if (activeScreen === 0)  {
+    screenComponent = <RegistrationScreen changeScreen={changeScreenFunc} />;
+  } else {
+    screenComponent = <LoginScreen changeScreen={changeScreenFunc} />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.mainContainer}>
         <ImageBackground source={backImage} style={styles.backImg}>
-          {activeScreen === 0 ? (
-            <LoginScreen changeScrenn={changeScrennFunc} />
-          ) : (
-            <RegistrationScreen changeScrenn={changeScrennFunc} />
-          )}
+          {screenComponent}
         </ImageBackground>
         <StatusBar style="auto" />
       </View>
@@ -60,3 +54,4 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+
