@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "goit-react-native-hw-02",
+    "slug": "goit-react-native-hw-02",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +25,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-      
     }
   }
 }

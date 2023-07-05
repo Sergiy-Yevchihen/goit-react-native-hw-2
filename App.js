@@ -1,5 +1,3 @@
-
-
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -9,33 +7,26 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
-
-
+import RegistrationScreen from "./src/Screens/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen";
 
 const backImage = require("./src/image/BG.png");
 
 export default function App() {
-
-  
   const [activeScreen, setActiveScreen] = useState(0);
-  const changeScreenFunc = (value) => {
+  const changeScrennFunc = (value) => {
     setActiveScreen(value);
   };
 
-  let screenComponent;
-  if (activeScreen === 0)  {
-    screenComponent = <RegistrationScreen changeScreen={changeScreenFunc} />;
-  } else {
-    screenComponent = <LoginScreen changeScreen={changeScreenFunc} />;
-  }
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.mainContainer}>
+      <View style={styles.maincontainer}>
         <ImageBackground source={backImage} style={styles.backImg}>
-          {screenComponent}
+          {activeScreen === 0 ? (
+            <LoginScreen changeScrenn={changeScrennFunc} />
+          ) : (
+            <RegistrationScreen changeScrenn={changeScrennFunc} />
+          )}
         </ImageBackground>
         <StatusBar style="auto" />
       </View>
@@ -44,7 +35,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  maincontainer: {
     flex: 1,
     alignItems: "center",
   },
@@ -54,4 +45,3 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
-
