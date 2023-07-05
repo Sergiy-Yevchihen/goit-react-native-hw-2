@@ -9,8 +9,8 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import RegistrationScreen from "./src/component/RegistrationScreen/RegistrationScreen";
-import LoginScreen from "./src/component/LoginScreen/LoginScreen";
+import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
 
 
 
