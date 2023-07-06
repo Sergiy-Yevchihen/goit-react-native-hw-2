@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -7,8 +9,8 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from "react-native";
-import React, { useState } from "react";
 
 const buttonImg = require("../../image/add.png");
 
@@ -17,6 +19,8 @@ const RegistrationScreen = ({ changeScreen }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
+  const [inputFocused, setInputFocused] = useState(false);
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   const handleLogin = (text) => {
     setLogin(text);
@@ -32,6 +36,14 @@ const RegistrationScreen = ({ changeScreen }) => {
     setShowPassword(!showPassword);
   };
 
+  const handleInputFocus = () => {
+    setInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setInputFocused(false);
+  };
+
   const register = () => {
     if (!login || !mail || !password) {
       alert("Enter all data pleace!!!");
@@ -41,6 +53,23 @@ const RegistrationScreen = ({ changeScreen }) => {
     changeScreen(1);
   };
 
+  const keyboardDidShow = () => {
+    setKeyboardOpen(true);
+  };
+
+  const keyboardDidHide = () => {
+    setKeyboardOpen(false);
+  };
+
+   useEffect(() => {
+     Keyboard.addListener("keyboardDidShow", keyboardDidShow);
+     Keyboard.addListener("keyboardDidHide", keyboardDidHide);
+
+     return () => {
+       Keyboard.removeAllListeners("keyboardDidShow", keyboardDidShow);
+       Keyboard.removeAllListeners("keyboardDidHide", keyboardDidHide);
+     };
+   }, []);
 
   return (
     <KeyboardAvoidingView
@@ -59,25 +88,31 @@ const RegistrationScreen = ({ changeScreen }) => {
         <Text style={styles.title}>Registration</Text>
 
         <TextInput
-          style={styles.inputLogin}
+          style={[styles.inputLogin, inputFocused && styles.inputFocused]}
           placeholder="Login"
           inputMode="text"
           value={login}
           onChangeText={handleLogin}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
         />
         <TextInput
-          style={styles.inputMailPassw}
+          style={[styles.inputMailPassw, inputFocused && styles.inputFocused]}
           placeholder="Email address"
           inputMode="email"
           value={mail}
           onChangeText={handleMail}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
         />
         <TextInput
-          style={styles.inputMailPassw}
+          style={[styles.inputMailPassw, inputFocused && styles.inputFocused]}
           placeholder="Password"
           secureTextEntry={showPassword}
           value={password}
           onChangeText={handlePassword}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
         />
 
         <TouchableOpacity
@@ -91,7 +126,7 @@ const RegistrationScreen = ({ changeScreen }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.registerButton}
+          style={[styles.registerButton, keyboardOpen && { display: "none" }]}
           activeOpacity={0.5}
           onPress={register}
         >
@@ -99,7 +134,7 @@ const RegistrationScreen = ({ changeScreen }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.loginLink}
+          style={[styles.loginLink, keyboardOpen && { display: "none" }]}
           activeOpacity={0.5}
           onPress={() => changeScreen(0)}
         >
@@ -123,8 +158,12 @@ const styles = StyleSheet.create({
   containerKeyB: {
     justifyContent: "flex-end",
   },
+  form: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
   pfotoContainer: {
-    marginTop: -60,
+    marginTop: -70,
     height: 120,
     width: 120,
     backgroundColor: "#F6F6F6",
@@ -155,6 +194,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
   },
   inputMailPassw: {
     backgroundColor: "#F6F6F6",
@@ -167,6 +208,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     position: "relative",
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+  },
+  inputFocused: {
+    borderColor: "#FF6C00",
   },
   passwShowText: {
     fontStyle: "normal",
