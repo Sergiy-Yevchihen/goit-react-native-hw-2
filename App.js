@@ -9,9 +9,9 @@ import {
 } from "react-native";
 
 import React, { useState } from "react";
-import RegistrationScreen from "./src/Screens/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
-import PostsScreen from "./src/Screens/PostsScreen";
+import RegistrationScreen from "./src/Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen/LoginScreen";
+import PostsScreen from "./src/Screens/PostsScreen/PostsScreen";
 
 const backImage = require("./src/image/BG.png");
 

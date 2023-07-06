@@ -1,7 +1,7 @@
 import {
   StyleSheet,
   Text,
-  ImageBackground,
+  
   View,
   TouchableOpacity,
   TextInput,
@@ -10,16 +10,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-const buttonImg = require("../image/add.png");
-
-const RegistrationScreen = ({ changeScreen }) => {
-  const [login, setLogin] = useState("");
+const LoginScreen = ({ changeScreen }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
-  const handleLogin = (text) => {
-    setLogin(text);
-  };
   const handleMail = (text) => {
     setMail(text);
   };
@@ -28,39 +23,26 @@ const RegistrationScreen = ({ changeScreen }) => {
   };
 
   const register = () => {
-    if (!login || !mail || !password) {
+    if (!mail || !password) {
       alert("Enter all data pleace!!!");
       return;
     }
-    console.log(`Login: ${login}, Email: ${mail}, Password: ${password}`);
-    changeScreen(1);
+    console.log(`Email: ${mail}, Password: ${password}`);
+    changeScreen(2);
   };
 
-  const passwShow = () => alert(`Your password is: ${password}`);
-
+ const toggleShowPassword = () => {
+   setShowPassword(!showPassword);
+  };
+  
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.containerKeyB}
     >
       <View style={styles.container}>
-        <View style={styles.pfotoContainer}>
-          <TouchableOpacity style={styles.addbutton} activeOpacity={0.5}>
-            <ImageBackground
-              source={buttonImg}
-              style={{ width: "100%", height: "100%" }}
-            ></ImageBackground>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Registration</Text>
+        <Text style={styles.title}>Login</Text>
 
-        <TextInput
-          style={styles.inputLogin}
-          placeholder="Login"
-          inputMode="text"
-          value={login}
-          onChangeText={handleLogin}
-        />
         <TextInput
           style={styles.inputMailPassw}
           placeholder="Email address"
@@ -71,7 +53,7 @@ const RegistrationScreen = ({ changeScreen }) => {
         <TextInput
           style={styles.inputMailPassw}
           placeholder="Password"
-          secureTextEntry={true}
+          secureTextEntry={showPassword}
           value={password}
           onChangeText={handlePassword}
         />
@@ -79,9 +61,11 @@ const RegistrationScreen = ({ changeScreen }) => {
         <TouchableOpacity
           style={styles.passwShow}
           activeOpacity={0.5}
-          onPress={passwShow}
+          onPress={toggleShowPassword}
         >
-          <Text style={styles.passwShowText}>Show</Text>
+          <Text style={styles.passwShowText}>
+            {showPassword ? "Show" : "Hide"}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -89,16 +73,16 @@ const RegistrationScreen = ({ changeScreen }) => {
           activeOpacity={0.5}
           onPress={register}
         >
-          <Text style={styles.registerButtonText}>Register</Text>
+          <Text style={styles.registerButtonText}>Login</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.loginLink}
           activeOpacity={0.5}
-          onPress={() => changeScreen(0)}
+          onPress={() => changeScreen(1)}
         >
           <Text style={styles.loginLinkText}>
-            Already have an account? Log in
+            Don't have an account? Register
           </Text>
         </TouchableOpacity>
       </View>
@@ -197,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default LoginScreen;
