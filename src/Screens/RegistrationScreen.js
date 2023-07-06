@@ -12,7 +12,7 @@ import React, { useState } from "react";
 
 const buttonImg = require("../image/add.png");
 
-const RegistrationScreen = ({ changeScrenn }) => {
+const RegistrationScreen = ({ changeScreen }) => {
   const [login, setLogin] = useState("");
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +33,7 @@ const RegistrationScreen = ({ changeScrenn }) => {
       return;
     }
     console.log(`Login: ${login}, Email: ${mail}, Password: ${password}`);
+    changeScreen(1);
   };
 
   const passwShow = () => alert(`Your password is: ${password}`);
@@ -94,7 +95,7 @@ const RegistrationScreen = ({ changeScrenn }) => {
         <TouchableOpacity
           style={styles.loginLink}
           activeOpacity={0.5}
-          onPress={() => changeScrenn(0)}
+          onPress={() => changeScreen(0)}
         >
           <Text style={styles.loginLinkText}>
             Already have an account? Log in

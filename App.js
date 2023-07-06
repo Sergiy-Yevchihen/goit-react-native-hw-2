@@ -1,32 +1,40 @@
-import { StatusBar } from "expo-status-bar";
+
 import {
+  StatusBar,
   StyleSheet,
   ImageBackground,
   View,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+
 import React, { useState } from "react";
 import RegistrationScreen from "./src/Screens/RegistrationScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
+import PostsScreen from "./src/Screens/PostsScreen";
 
 const backImage = require("./src/image/BG.png");
 
 export default function App() {
   const [activeScreen, setActiveScreen] = useState(0);
-  const changeScrennFunc = (value) => {
+  const changeScreen = (value) => {
     setActiveScreen(value);
   };
+
+  let screenComponent;
+  if (activeScreen === 0) {
+    screenComponent = <LoginScreen changeScreen={changeScreen} />;
+  } else if (activeScreen === 1) {
+    screenComponent = <RegistrationScreen changeScreen={changeScreen} />;
+  } else if (activeScreen === 2) {
+    screenComponent = <PostsScreen changeScreen={changeScreen} />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.maincontainer}>
         <ImageBackground source={backImage} style={styles.backImg}>
-          {activeScreen === 0 ? (
-            <LoginScreen changeScrenn={changeScrennFunc} />
-          ) : (
-            <RegistrationScreen changeScrenn={changeScrennFunc} />
-          )}
+          {screenComponent}
         </ImageBackground>
         <StatusBar style="auto" />
       </View>

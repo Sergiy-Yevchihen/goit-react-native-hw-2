@@ -1,7 +1,7 @@
 import {
   StyleSheet,
   Text,
-  ImageBackground,
+  
   View,
   TouchableOpacity,
   TextInput,
@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-const LoginScreen = ({ changeScrenn }) => {
+const LoginScreen = ({ changeScreen }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,6 +27,7 @@ const LoginScreen = ({ changeScrenn }) => {
       return;
     }
     console.log(`Email: ${mail}, Password: ${password}`);
+    changeScreen(2);
   };
 
   const passwShow = () => alert(`Your password is: ${password}`);
@@ -73,7 +74,7 @@ const LoginScreen = ({ changeScrenn }) => {
         <TouchableOpacity
           style={styles.loginLink}
           activeOpacity={0.5}
-          onPress={() => changeScrenn(1)}
+          onPress={() => changeScreen(1)}
         >
           <Text style={styles.loginLinkText}>
             Don't have an account? Register
