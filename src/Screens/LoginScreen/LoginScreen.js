@@ -1,21 +1,27 @@
 import {
   StyleSheet,
   Text,
+  ImageBackground,
   View,
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+ 
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 
-const LoginScreen = ({ changeScreen }) => {
+const backImage = require("../../image/BG.png");
+
+const LoginScreen = ({ navigation }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-  const [keyboardOpen, setKeyboardOpen] = useState(false);
+
   const [inputFocused, setInputFocused] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   const handleMail = (text) => {
     setMail(text);
@@ -30,21 +36,13 @@ const LoginScreen = ({ changeScreen }) => {
       return;
     }
     console.log(`Email: ${mail}, Password: ${password}`);
-    changeScreen(2);
+    navigation.navigate("Home", { screen: "PostsScreen" });
   };
 
- const toggleShowPassword = () => {
-   setShowPassword(!showPassword);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
-   const keyboardDidShow = () => {
-     setKeyboardOpen(true);
-   };
-
-   const keyboardDidHide = () => {
-     setKeyboardOpen(false);
-  };
-  
   const handleInputFocus = () => {
     setInputFocused(true);
   };
@@ -52,77 +50,111 @@ const LoginScreen = ({ changeScreen }) => {
   const handleInputBlur = () => {
     setInputFocused(false);
   };
-  
+
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", keyboardDidHide);
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
 
     return () => {
-      Keyboard.removeAllListeners("keyboardDidShow", keyboardDidShow);
-      Keyboard.removeAllListeners("keyboardDidHide", keyboardDidHide);
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
     };
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.containerKeyB}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-
-        <TextInput
-          style={[styles.inputMailPassw, inputFocused && styles.inputFocused]}
-          placeholder="Email address"
-          inputMode="email"
-          value={mail}
-          onChangeText={handleMail}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-        />
-        <TextInput
-          style={[styles.inputMailPassw, inputFocused && styles.inputFocused]}
-          placeholder="Password"
-          secureTextEntry={showPassword}
-          value={password}
-          onChangeText={handlePassword}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-        />
-
-        <TouchableOpacity
-          style={styles.passwShow}
-          activeOpacity={0.5}
-          onPress={toggleShowPassword}
+    <View style={styles.maincontainer}>
+      <ImageBackground source={backImage} style={styles.backImg}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={styles.containerKeyB}
         >
-          <Text style={styles.passwShowText}>
-            {showPassword ? "Show" : "Hide"}
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.container}>
+            <Text style={styles.title}>Login</Text>
 
-        <TouchableOpacity
-          style={[styles.registerButton, keyboardOpen && { display: "none" }]}
-          activeOpacity={0.5}
-          onPress={register}
-        >
-          <Text style={styles.registerButtonText}>Login</Text>
-        </TouchableOpacity>
+            <TextInput
+              style={[
+                styles.inputMailPassw,
+                inputFocused && styles.inputFocused,
+              ]}
+              placeholder="Email address"
+              inputMode="email"
+              value={mail}
+              onChangeText={handleMail}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
+            <TextInput
+              style={[
+                styles.inputMailPassw,
+                inputFocused && styles.inputFocused,
+              ]}
+              placeholder="Password"
+              secureTextEntry={showPassword}
+              value={password}
+              onChangeText={handlePassword}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
 
-        <TouchableOpacity
-          style={[styles.loginLink, keyboardOpen && { display: "none" }]}
-          activeOpacity={0.5}
-          onPress={() => changeScreen(1)}
-        >
-          <Text style={styles.loginLinkText}>
-            Don't have an account? Register
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+            <TouchableOpacity
+              style={styles.passwShow}
+              activeOpacity={0.5}
+              onPress={toggleShowPassword}
+            >
+              <Text style={styles.passwShowText}>
+                {showPassword ? "Show" : "Hide"}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.registerButton,
+                keyboardVisible && styles.hiddenButton,
+              ]}
+              activeOpacity={0.5}
+              onPress={register}
+            >
+              <Text style={styles.registerButtonText}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.loginLink, keyboardVisible && styles.hiddenButton]}
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate("Registratione")}
+            >
+              <Text style={styles.loginLinkText}>
+                Don't have an account? Register
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+      <StatusBar style="auto" />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  maincontainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  backImg: {
+    flex: 1,
+    justifyContent: "flex-end",
+    width: "100%",
+  },
   container: {
     backgroundColor: "#FFFFFF",
     alignItems: "center",
@@ -211,6 +243,12 @@ const styles = StyleSheet.create({
   loginLink: {
     marginTop: 16,
     marginBottom: 66,
+  },
+  hiddenButton: {
+    opacity: 0,
+    height: 0,
+    width: 0,
+    position: "absolute",
   },
   loginLinkText: {
     fontStyle: "normal",

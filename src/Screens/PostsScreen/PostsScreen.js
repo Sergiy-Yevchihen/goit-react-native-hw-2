@@ -1,56 +1,38 @@
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import React from "react";
+import Post from "../../Elements/Post";
+import ProfileElement from "../../Elements/ProfileElement";
+const postImg = require("../../image/Rectangle23.png");
+const avatar = require("../../image/Rectangle22.png");
+import data from "../../Elements/posts";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-
-const PostScreen = ({ changeScreen }) => {
+function PostsScreen({ navigation }) {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.containerKeyB}
+    <SafeAreaView
+      style={{
+        justifyContent: "flex-start",
+        alignItems: "center",
+        overflow: "visible",
+      }}
     >
-      <View style={styles.container}>
-        <Text style={styles.title}>PostScreen</Text>
-
-        <TouchableOpacity
-          style={styles.loginLink}
-          activeOpacity={0.5}
-          onPress={() => changeScreen(0)}
-        >
-          <Text style={styles.loginLinkText}>Go Login?</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      <ScrollView>
+        <ProfileElement
+          avatar={avatar}
+          name="Natali Romanova"
+          email="email@example.com"
+        />
+        {data.map((el) => (
+          <Post
+            key={el.id}
+            img={postImg}
+            text={el.name}
+            msgs={0}
+            location={el.location}
+          />
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  containerKeyB: {
-    justifyContent: "flex-end",
-  },
-  container: {
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    width: "100%",
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-  },
-  title: {
-    fontWeight: "500",
-    fontSize: 30,
-    marginTop: 32,
-    lineHeight: 35,
-  },
-  loginLinkText: {
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 19,
-  },
-});
-export default PostScreen;
+export default PostsScreen;
