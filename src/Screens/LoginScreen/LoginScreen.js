@@ -1,3 +1,5 @@
+
+
 import {
   StyleSheet,
   Text,
@@ -19,9 +21,15 @@ const LoginScreen = ({ navigation }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-
+  const [input1Focused, setInput1Focused] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  
+  const isValidEmail = (email) => {
+    // Регулярное выражение для проверки формата электронной почты
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
 
   const handleMail = (text) => {
     setMail(text);
@@ -35,8 +43,22 @@ const LoginScreen = ({ navigation }) => {
       alert("Enter all data pleace!!!");
       return;
     }
+    clearForm();
+
+    if (!isValidEmail(mail)) {
+      alert("Enter a valid email address!");
+      return;
+      
+    }
+    
     console.log(`Email: ${mail}, Password: ${password}`);
     navigation.navigate("Home", { screen: "PostsScreen" });
+     
+  };
+
+  const clearForm = () => {
+    setMail("");
+    setPassword("");
   };
 
   const toggleShowPassword = () => {
@@ -50,6 +72,15 @@ const LoginScreen = ({ navigation }) => {
   const handleInputBlur = () => {
     setInputFocused(false);
   };
+
+  const handleInput1Focus = () => {
+    setInput1Focused(true);
+  };
+
+  const handleInput1Blur = () => {
+    setInput1Focused(false);
+  };
+
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -90,6 +121,7 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Email address"
               inputMode="email"
               value={mail}
+              keyboardType="email-address"
               onChangeText={handleMail}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
@@ -97,14 +129,14 @@ const LoginScreen = ({ navigation }) => {
             <TextInput
               style={[
                 styles.inputMailPassw,
-                inputFocused && styles.inputFocused,
+                input1Focused && styles.inputFocused,
               ]}
               placeholder="Password"
               secureTextEntry={showPassword}
               value={password}
               onChangeText={handlePassword}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
+              onFocus={handleInput1Focus}
+              onBlur={handleInput1Blur}
             />
 
             <TouchableOpacity
@@ -259,3 +291,4 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+

@@ -22,7 +22,15 @@ const RegistrationScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [inputFocused, setInputFocused] = useState(false);
+  const [input1Focused, setInput1Focused] = useState(false);
+  const [input2Focused, setInput2Focused] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  const isValidEmail = (email) => {
+    // Регулярное выражение для проверки формата электронной почты
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
 
   const handleLogin = (text) => {
     setLogin(text);
@@ -46,13 +54,42 @@ const RegistrationScreen = ({ navigation }) => {
     setInputFocused(false);
   };
 
+  const handleInput1Focus = () => {
+    setInput1Focused(true);
+  };
+
+  const handleInput1Blur = () => {
+    setInput1Focused(false);
+  };
+
+  const handleInput2Focus = () => {
+    setInput2Focused(true);
+  };
+
+  const handleInput2Blur = () => {
+    setInput2Focused(false);
+  };
+
   const register = () => {
     if (!login || !mail || !password) {
       alert("Enter all data pleace!!!");
       return;
     }
+    clearForm();
+
+    if (!isValidEmail(mail)) {
+      alert("Enter a valid email address!");
+      return;
+    }
+   
     console.log(`Login: ${login}, Email: ${mail}, Password: ${password}`);
     navigation.navigate("Home", { screen: "PostsScreen" });
+     
+  };
+
+  const clearForm = () => {
+    setMail("");
+    setPassword("");
   };
 
   
@@ -108,26 +145,28 @@ const RegistrationScreen = ({ navigation }) => {
             <TextInput
               style={[
                 styles.inputMailPassw,
-                inputFocused && styles.inputFocused,
+                input1Focused && styles.inputFocused,
               ]}
               placeholder="Email address"
               inputMode="email"
               value={mail}
+              keyboardType="email-address"
               onChangeText={handleMail}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
+              onFocus={handleInput1Focus}
+              onBlur={handleInput1Blur}
             />
             <TextInput
               style={[
                 styles.inputMailPassw,
-                inputFocused && styles.inputFocused,
+                input2Focused && styles.inputFocused,
               ]}
               placeholder="Password"
               secureTextEntry={showPassword}
               value={password}
+              
               onChangeText={handlePassword}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
+              onFocus={handleInput2Focus}
+              onBlur={handleInput2Blur}
             />
 
             <TouchableOpacity
@@ -143,7 +182,7 @@ const RegistrationScreen = ({ navigation }) => {
             <TouchableOpacity
               style={[
                 styles.registerButton,
-                keyboardVisible && styles.inputFocused,
+                keyboardVisible && styles.hiddenButton,
               ]}
               activeOpacity={0.5}
               onPress={register}
@@ -152,7 +191,7 @@ const RegistrationScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.loginLink, keyboardVisible && styles.inputFocused]}
+              style={[styles.loginLink, keyboardVisible && styles.hiddenButton]}
               activeOpacity={0.5}
               onPress={() => navigation.navigate("Login")}
             >
