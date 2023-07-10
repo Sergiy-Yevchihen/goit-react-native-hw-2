@@ -42,6 +42,7 @@ const CreatePost = ({ navigation }) => {
 };
 
 const CreatePostsScreen = ({ navigation }) => {
+   const [activeTab, setActiveTab] = React.useState("Create post");
   return (
     <BottomTabs.Navigator
       screenOptions={{
@@ -49,8 +50,11 @@ const CreatePostsScreen = ({ navigation }) => {
         tabBarStyle: {
           height: 80,
           borderBottomColor: "#E8E8E8",
+          // 
           borderBottomWidth: 2,
+         tabBarActiveTintColor: "orange", 
         },
+        
       }}
     >
       <BottomTabs.Screen

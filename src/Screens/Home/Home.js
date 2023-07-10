@@ -1,3 +1,4 @@
+
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { AntDesign, SimpleLineIcons, Feather } from "@expo/vector-icons";
@@ -9,22 +10,22 @@ import ProfileScreen from "../ProfileScreen/ProfileScreen";
 const BottomTabs = createBottomTabNavigator(); 
 
 const Home = ({ navigation }) => {
+  const [selectedTab, setSelectedTab] = React.useState("PostsScreen");
     return (
-    
       <BottomTabs.Navigator
         initialRouteName="Posts"
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: { height: 80 },
+          activeTintColor: "orange",
         }}
       >
-        
-
         {/* GRID */}
         <BottomTabs.Screen
           options={{
             tabBarIcon: ({ focused, size, color }) => {
-              return <SimpleLineIcons name="grid" size={20} color={color} />;
+              return <SimpleLineIcons name="grid" size={20} color={focused ? "orange" : color}/>;
+              // {color} 
             },
             headerTitleAlign: "center",
             headerRightContainerStyle: { paddingRight: 20 },
@@ -68,7 +69,13 @@ const Home = ({ navigation }) => {
         <BottomTabs.Screen
           options={{
             tabBarIcon: ({ focused, size, color }) => {
-              return <AntDesign name="user" size={20} color={color} />;
+              return (
+                <AntDesign
+                  name="user"
+                  size={20}
+                  color={focused ? "orange" : color}
+                />
+              );
             },
             headerShown: false,
           }}
@@ -122,6 +129,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#ffffff",
+    // 
     fontSize: 18,
   },
   gridButton: {

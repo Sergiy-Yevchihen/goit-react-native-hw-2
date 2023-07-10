@@ -10,7 +10,8 @@ const Post = ({ img, text, msgs, location }) => {
       <Text style={styles.posText}>{text}</Text>
       <View style={styles.infoContainer}>
         <View style={styles.info}>
-          <Feather name="message-circle" size={18} color="gray" />
+          <Feather name="message-circle" size={18} color="orange" />
+          {/*gray  */}
           <Text>{msgs}</Text>
         </View>
         <View style={styles.info}>
@@ -24,10 +25,10 @@ const Post = ({ img, text, msgs, location }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: 400,
+    width: 340,
+    height: 250,
     justifyContent: "flex-start",
-    padding: 10,
+    padding: 5,
   },
   postImg: {
     flex: 4,

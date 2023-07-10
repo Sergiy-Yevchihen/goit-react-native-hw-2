@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import React from "react";
 import Post from "../../Elements/Post";
 import ProfileElement from "../../Elements/ProfileElement";
-const postImg = require("../../image/Rectangle23.png");
-const avatar = require("../../image/Rectangle22.png");
-import data from "../../Elements/posts";
+ 
 
+import data from "../../Elements/posts";
+const avatar = require("../../image/Rectangle22.png");
 function PostsScreen({ navigation }) {
   return (
     <SafeAreaView
@@ -24,7 +24,7 @@ function PostsScreen({ navigation }) {
         {data.map((el) => (
           <Post
             key={el.id}
-            img={postImg}
+            img={el.image}
             text={el.name}
             msgs={0}
             location={el.location}
